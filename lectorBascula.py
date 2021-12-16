@@ -1,7 +1,6 @@
 import serial
 import time
 import os
-import sys
 
 ser = serial.Serial(
     port='COM6',\
