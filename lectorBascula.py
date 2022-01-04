@@ -3,14 +3,7 @@ import time
 import os 
 
 def conector():
-    ser = serial.Serial(
-        port='COM6',\
-        baudrate=9600,\
-        parity=serial.PARITY_NONE,\
-        stopbits=serial.STOPBITS_ONE,\
-        bytesize=serial.EIGHTBITS,\
-            timeout=0)
-
+    
     print("connected to: " + ser.portstr)
     lectura=''
     subcadena=''
@@ -25,13 +18,20 @@ def conector():
             subcadena = lectura[indice_c:indice_h]
             print(int(subcadena))
             time.sleep(1)
-            os.system('curl -v -X POST -d "{\"peso\":'+subcadena+'}" iot.igromi.com:8080/api/v1/bascula1iGromi/telemetry --header "Content-Type:application/json"')
+            os.system('curl -v -X POST -d "{\"peso\":'+subcadena+'}" iot.igromi.com:8080/api/v1/bascula1/telemetry --header "Content-Type:application/json"')
             return 0
         except:
             #print('error lectura: '+str(contador_err))
             contador_err=contador_err+1
             if contador_err > 200:
                 return 0 
-    ser.close()
-while True:
-    conector()
+ 
+ser = serial.Serial(
+    port='/dev/ttyUSB0',\
+    baudrate=9600,\
+    parity=serial.PARITY_NONE,\
+    stopbits=serial.STOPBITS_ONE,\
+    bytesize=serial.EIGHTBITS,\
+        timeout=0)
+conector()
+ser.close()

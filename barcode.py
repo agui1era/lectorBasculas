@@ -2,6 +2,7 @@
 import sys
 import requests
 import json
+import os
 
 api_key = "" #https://upcdatabase.org/
 
@@ -18,7 +19,7 @@ def barcode_reader():
             29: 'Z', 30: '!', 31: '@', 32: '#', 33: '$', 34: '%', 35: '^', 36: '&', 37: '*', 38: '(', 39: ')', 44: ' ',
             45: '_', 46: '+', 47: '{', 48: '}', 49: '|', 51: ':', 52: '"', 53: '~', 54: '<', 55: '>', 56: '?'}
 
-    fp = open('hidraw0', 'rb')
+    fp = open('/dev/hidraw0', 'rb')
 
     ss = ""
     shift = False
@@ -65,25 +66,9 @@ def barcode_reader():
                         ss += hid[int(ord(c))]
     return ss
 
-def UPC_lookup(api_key,upc):
-    '''V3 API'''
 
-    url = "https://api.upcdatabase.org/product/%s/%s" % (upc, api_key)
+print(barcode_reader())
+os.system('python3 /home/pi/lectorBasculas/lectorBascula.py')
 
-    headers = {
-        'cache-control': "no-cache",
-    }
 
-    response = requests.request("GET", url, headers=headers)
-
-    print("-----" * 5)
-    print(upc)
-    print(json.dumps(response.json(), indent=2))
-    print("-----" * 5 + "\n")
-
-if __name__ == '__main__':
-    try:
-        while True:
-            UPC_lookup(api_key,barcode_reader())
-    except KeyboardInterrupt:
-        pass
+    
