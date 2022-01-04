@@ -66,9 +66,7 @@ def barcode_reader():
                         ss += hid[int(ord(c))]
     return ss
 
-
-print(barcode_reader())
-os.system('python3 /home/pi/lectorBasculas/lectorBascula.py')
+os.system('python3 /home/pi/lectorBasculas/lectorBascula.py '+barcode_reader())
 
 
     
