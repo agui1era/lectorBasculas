@@ -1,10 +1,10 @@
+
 #!/usr/bin/python
 import sys
 import requests
 import json
 import os
-
-api_key = "" #https://upcdatabase.org/
+import time
 
 def barcode_reader():
     """Barcode code obtained from 'brechmos' 
@@ -66,7 +66,10 @@ def barcode_reader():
                         ss += hid[int(ord(c))]
     return ss
 
-os.system('python3 /home/pi/lectorBasculas/lectorBascula.py '+barcode_reader())
 
-
-    
+if __name__ == '__main__':
+    try:
+        while True:
+           os.system("python3 /home/pi/lectorBasculas/lectorBascula.py "+barcode_reader())
+    except KeyboardInterrupt:
+        pass
